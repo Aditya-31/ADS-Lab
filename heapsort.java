@@ -95,4 +95,109 @@ class Heapsort{
 			displayArray();	
 	}//End of Main Function
 }
-/**/
+/*OUTPUT:
+unix@unix-dx2480-MT:~/SEA18$ cd SEA18
+unix@unix-dx2480-MT:~/SEA18$ javac heapsort.java
+unix@unix-dx2480-MT:~/SEA18$ java Heapsort
+
+Your Array has been initialized to the given default case!!
+Entered Elements are:
+
+
+ Array is :
+
+ 129 30 80 60 10 5 122 92 69 55
+
+4
+
+ Array is :
+
+ 129 30 80 60 10 5 122 92 69 55
+
+3
+
+ Array is :
+
+ 129 30 80 92 10 5 122 60 69 55
+
+2
+
+ Array is :
+
+ 129 30 122 92 10 5 80 60 69 55
+
+1
+
+ Array is :
+
+ 129 92 122 69 10 5 80 60 30 55
+
+0
+
+ Array is :
+
+ 129 92 122 69 10 5 80 60 30 55
+
+
+
+ Array is :
+
+ 122 92 80 69 10 5 55 60 30 129
+
+
+
+ Array is :
+
+ 92 69 80 30 10 5 55 60 122 129
+
+
+
+ Array is :
+
+ 80 69 60 30 10 5 55 92 122 129
+
+
+
+ Array is :
+
+ 69 55 60 30 10 5 80 92 122 129
+
+
+
+ Array is :
+
+ 60 55 5 30 10 69 80 92 122 129
+
+
+
+ Array is :
+
+ 55 10 5 30 60 69 80 92 122 129
+
+
+
+ Array is :
+
+ 30 10 5 55 60 69 80 92 122 129
+
+
+
+ Array is :
+
+ 5 10 30 55 60 69 80 92 122 129
+
+
+
+ Array is :
+
+ 5 10 30 55 60 69 80 92 122 129
+
+Sorted Array is:
+
+
+ Array is :
+
+ 5 10 30 55 60 69 80 92 122 129
+
+unix@unix-dx2480-MT:~/SEA18$ 
+*/
