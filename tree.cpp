@@ -1,9 +1,10 @@
 /*
 	Name: Aditya Gade		Date:30/12/2019		Class: SE-A
-	A C++ Program for Linked Implementation of Binary Tree 
+	A C++ Program for Linked Implementation of Binary Tree, traversals recursive and non recursive.
 */
 #include<iostream>
 #include<stdlib.h>
+#include"MyStack.h"
 using namespace std;
 
 class Node{
@@ -22,6 +23,7 @@ class Node{
 
 class BinaryTree{
 		Node* root;
+		int count;
 	public:
 		BinaryTree(){
 			root=NULL;
@@ -47,7 +49,7 @@ class BinaryTree{
 						do{
 							cout<<"\nPLEASE ENTER ('l'/'r'/'L'/'R')\n";
 							cout<<"\nDo you want to attach "<<temp->data<<" to left or right of "
-										<<current->data<<endl;
+										<<current->data<<" : ";
 							cin>>leftOrRight;
 						}while(leftOrRight!='r' && leftOrRight!='l' && leftOrRight!='R' && leftOrRight!='L');
 						if(leftOrRight=='l'|| leftOrRight=='L'){
@@ -72,17 +74,33 @@ class BinaryTree{
 							else
 								current=current->right;
 						}
+						count++;
 					}while(1);
 				}
-				cout<<"\nDo You Want to add more Nodes? (Y/N))";
+				cout<<"\nDo You Want to add more Nodes? (Y/N)) : ";
 				cin>>choice;
 			}while(choice=='Y'||choice =='y');
 		}
-		
-		void inorderDisplay()
-		{
-			inorder(root);
+		//Function Calling Functions
+		void inorderDisplay(int z=0){
+			if(z)
+				inorderNonRecursive();
+			else
+				inorder(root);
 		}
+		void preorderDisplay(int z=0){
+			if(z)
+				preorderNonRecursive();
+			else
+				preorder(root);
+		}
+		void postorderDisplay(int z=0){
+			if(z)
+				postorderNonRecursive();
+			else
+				postorder(root);
+		}
+		//	RECURSIVE TRAVERSALS	:
 		void inorder(Node* temp){
 			if(temp!=NULL){
 			
@@ -92,10 +110,6 @@ class BinaryTree{
 			}
 		}
 		
-		void preorderDisplay()
-		{
-			preorder(root);
-		}
 		void preorder(Node* temp){
 			if(temp!=NULL){
 			
@@ -105,10 +119,6 @@ class BinaryTree{
 			}
 		}
 		
-		void postorderDisplay()
-		{
-			postorder(root);
-		}
 		void postorder(Node* temp){
 			if(temp!=NULL){
 			
@@ -118,6 +128,44 @@ class BinaryTree{
 			}
 		}
 		
+		//NON RECURSIVE TRAVERSALS	:
+		void inorderNonRecursive(){
+			MyStack <Node*> stack(count+1);
+			Node* temp=root;
+			do{
+				while(temp!=NULL){
+					stack.push(temp);
+					temp=temp->left;
+				}
+				if(!stack.isEmpty()){
+					temp=stack.pop();
+					cout<<temp->data<<"\t";
+					temp=temp->right;
+				}
+				else
+					break;
+			}while(1);
+		}
+		
+		void preorderNonRecursive(){
+			MyStack <Node*> stack(count+1);
+			Node* temp=root;
+			do{
+				while(temp!=NULL){
+					cout<<temp->data<<"\t";
+					stack.push(temp);
+					temp=temp->left;
+				}
+				if(!stack.isEmpty()){
+					temp=stack.pop();
+					temp=temp->right;
+				}
+				else
+					break;
+			}while(1);
+		}
+		void postorderNonRecursive(){
+		}
 };
 int main()
 {
@@ -127,9 +175,12 @@ int main()
 	
 		cout<<"\nMENU:\n";
 		cout<<"1.Create and Insert Nodes:"<<endl;
-		cout<<"2.Inorder Display"<<endl;
-		cout<<"3.Postorder Display"<<endl;
-		cout<<"4.Preorder Display"<<endl;
+		cout<<"2.Inorder Display(R)"<<endl;
+		cout<<"3.Postorder Display(R)"<<endl;
+		cout<<"4.Preorder Display(R)"<<endl;
+		cout<<"5.Inorder Display(NR)"<<endl;
+		cout<<"6.Postorder Display(NR)"<<endl;
+		cout<<"7.Preorder Display(NR)"<<endl;
 		cout<<"0.Exit"<<endl;
 		cout<<"\nEnter your Choice: ";
 		cin>>switchChoice;
@@ -139,227 +190,280 @@ int main()
 				B1.create();
 				break;
 			case '2':
-				cout<<"Entered Tree Inorder is:\n\n";			
+				cout<<"Entered Tree Inorder is(R):\n\n";			
 				B1.inorderDisplay();
 				break;
 			case '3':
-				cout<<"Entered Tree Postorder is:\n\n";			
+				cout<<"Entered Tree Postorder is(R):\n\n";			
 				B1.postorderDisplay();
 				break;
 			case '4':
-				cout<<"Entered Tree Preorder is:\n\n";			
+				cout<<"Entered Tree Preorder is(R):\n\n";			
 				B1.preorderDisplay();
 				break;
+			case '5':
+				cout<<"Entered Tree Inorder is(NR):\n\n";			
+				B1.inorderDisplay(1);
+				break;
+			case '6':
+				cout<<"Entered Tree Postorder is(NR):\n\n";			
+				B1.postorderDisplay(1);
+				break;
+			case '7':
+				cout<<"Entered Tree Preorder is(NR):\n\n";			
+				B1.preorderDisplay(1);
+				break;
+			case '0':
+				cout<<"\nExiting the Program!!\n";
+				exit (0);
 			default:
 				cout<<"\nPlease Enter a Valid Choice\n";
 		}
-	}while(switchChoice !=0);
-	cout<<"\nExiting the Program";
+	}while(1);
 	return 0;
 }
 /*OUTPUT:
+unix@unix-dx2480-MT:~$ cd SEA18
 unix@unix-dx2480-MT:~/SEA18$ g++ tree.cpp
 unix@unix-dx2480-MT:~/SEA18$ ./a.out
 
 MENU:
 1.Create and Insert Nodes:
-2.Inorder Display
-3.Postorder Display
-4.Preorder Display
+2.Inorder Display(R)
+3.Postorder Display(R)
+4.Preorder Display(R)
+5.Inorder Display(NR)
+6.Postorder Display(NR)
+7.Preorder Display(NR)
 0.Exit
 
 Enter your Choice: 1
 
 Please Enter Data for newly created node : A
 
-Do You Want to add more Nodes? (Y/N))y
-
-Please Enter Data for newly created node : D
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach D to left or right of A
-l
-
-D added to the left of A
-Do You Want to add more Nodes? (Y/N))y
-
-Please Enter Data for newly created node : G
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach G to left or right of A
-l
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach G to left or right of D
-l
-
-G added to the left of D
-Do You Want to add more Nodes? (Y/N))y
-
-Please Enter Data for newly created node : J
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach J to left or right of A
-l
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach J to left or right of D
-l
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach J to left or right of G
-l
-
-J added to the left of G
-Do You Want to add more Nodes? (Y/N))y
-
-Please Enter Data for newly created node : H
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach H to left or right of A
-l
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach H to left or right of D
-r
-
-H added to the right of D
-Do You Want to add more Nodes? (Y/N))y
+Do You Want to add more Nodes? (Y/N)) : y
 
 Please Enter Data for newly created node : B
 
 PLEASE ENTER ('l'/'r'/'L'/'R')
 
-Do you want to attach B to left or right of A
-r
+Do you want to attach B to left or right of A : l
 
-B added to the right of A
-Do You Want to add more Nodes? (Y/N))y
-
-Please Enter Data for newly created node : C
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach C to left or right of A
-r
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach C to left or right of B
-l
-
-C added to the left of B
-Do You Want to add more Nodes? (Y/N))y
-
-Please Enter Data for newly created node : I
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach I to left or right of A
-r
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach I to left or right of B
-l
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach I to left or right of C
-l
-
-I added to the left of C
-Do You Want to add more Nodes? (Y/N))y
-
-Please Enter Data for newly created node : F
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach F to left or right of A
-r
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach F to left or right of B
-l
-
-PLEASE ENTER ('l'/'r'/'L'/'R')
-
-Do you want to attach F to left or right of C
-r
-
-F added to the right of C
-Do You Want to add more Nodes? (Y/N))y
+B added to the left of A
+Do You Want to add more Nodes? (Y/N)) : y
 
 Please Enter Data for newly created node : E
 
 PLEASE ENTER ('l'/'r'/'L'/'R')
 
-Do you want to attach E to left or right of A
-r
+Do you want to attach E to left or right of A : l
 
 PLEASE ENTER ('l'/'r'/'L'/'R')
 
-Do you want to attach E to left or right of B
-r
+Do you want to attach E to left or right of B : l
 
-E added to the right of B
-Do You Want to add more Nodes? (Y/N))n
+E added to the left of B
+Do You Want to add more Nodes? (Y/N)) : y
+
+Please Enter Data for newly created node : C
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach C to left or right of A : l
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach C to left or right of B : r
+
+C added to the right of B
+Do You Want to add more Nodes? (Y/N)) : y
+
+Please Enter Data for newly created node : H
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach H to left or right of A : l
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach H to left or right of B : r
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach H to left or right of C : l
+
+H added to the left of C
+Do You Want to add more Nodes? (Y/N)) : y
+
+Please Enter Data for newly created node : J
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach J to left or right of A : l
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach J to left or right of B : r
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach J to left or right of C : r
+
+J added to the right of C
+Do You Want to add more Nodes? (Y/N)) : y
+
+Please Enter Data for newly created node : D
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach D to left or right of A : r
+
+D added to the right of A
+Do You Want to add more Nodes? (Y/N)) : y
+
+Please Enter Data for newly created node : F
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach F to left or right of A : r
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach F to left or right of D : l
+
+F added to the left of D
+Do You Want to add more Nodes? (Y/N)) : y
+
+Please Enter Data for newly created node : G
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach G to left or right of A : r
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach G to left or right of D : r
+
+G added to the right of D
+Do You Want to add more Nodes? (Y/N)) : y
+
+Please Enter Data for newly created node : I
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach I to left or right of A : r
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach I to left or right of D : r
+
+PLEASE ENTER ('l'/'r'/'L'/'R')
+
+Do you want to attach I to left or right of G : r
+
+I added to the right of G
+Do You Want to add more Nodes? (Y/N)) : n
 
 MENU:
 1.Create and Insert Nodes:
-2.Inorder Display
-3.Postorder Display
-4.Preorder Display
+2.Inorder Display(R)
+3.Postorder Display(R)
+4.Preorder Display(R)
+5.Inorder Display(NR)
+6.Postorder Display(NR)
+7.Preorder Display(NR)
 0.Exit
 
 Enter your Choice: 2
-Entered Tree Inorder is:
+Entered Tree Inorder is(R):
 
-J	G	D	H	A	I	C	F	B	E	
-
+E	B	H	C	J	A	F	D	G	I	
 MENU:
 1.Create and Insert Nodes:
-2.Inorder Display
-3.Postorder Display
-4.Preorder Display
+2.Inorder Display(R)
+3.Postorder Display(R)
+4.Preorder Display(R)
+5.Inorder Display(NR)
+6.Postorder Display(NR)
+7.Preorder Display(NR)
 0.Exit
 
-Enter your Choice: 3
-Entered Tree Postorder is:
+Enter your Choice: 5
+Entered Tree Inorder is(NR):
 
-J	G	H	D	I	F	C	E	B	A
+E	B	H	C	J	A	F	D	G	I	
+ALL YOUR DATA IS SUCCESFULLY EMPTIED!!!
 
 MENU:
 1.Create and Insert Nodes:
-2.Inorder Display
-3.Postorder Display
-4.Preorder Display
+2.Inorder Display(R)
+3.Postorder Display(R)
+4.Preorder Display(R)
+5.Inorder Display(NR)
+6.Postorder Display(NR)
+7.Preorder Display(NR)
 0.Exit
 
 Enter your Choice: 4
-Entered Tree Preorder is:
+Entered Tree Preorder is(R):
 
-A	D	G	J	H	B	C	I	F	E	
+A	B	E	C	H	J	D	F	G	I	
+MENU:
+1.Create and Insert Nodes:
+2.Inorder Display(R)
+3.Postorder Display(R)
+4.Preorder Display(R)
+5.Inorder Display(NR)
+6.Postorder Display(NR)
+7.Preorder Display(NR)
+0.Exit
+
+Enter your Choice: 7
+Entered Tree Preorder is(NR):
+
+A	B	E	C	H	J	D	F	G	I	
+ALL YOUR DATA IS SUCCESFULLY EMPTIED!!!
 
 MENU:
 1.Create and Insert Nodes:
-2.Inorder Display
-3.Postorder Display
-4.Preorder Display
+2.Inorder Display(R)
+3.Postorder Display(R)
+4.Preorder Display(R)
+5.Inorder Display(NR)
+6.Postorder Display(NR)
+7.Preorder Display(NR)
+0.Exit
+
+Enter your Choice: 3
+Entered Tree Postorder is(R):
+
+E	H	J	C	B	F	I	G	D	A	
+MENU:
+1.Create and Insert Nodes:
+2.Inorder Display(R)
+3.Postorder Display(R)
+4.Preorder Display(R)
+5.Inorder Display(NR)
+6.Postorder Display(NR)
+7.Preorder Display(NR)
+0.Exit
+
+Enter your Choice: 6
+Entered Tree Postorder is(NR):
+
+
+MENU:
+1.Create and Insert Nodes:
+2.Inorder Display(R)
+3.Postorder Display(R)
+4.Preorder Display(R)
+5.Inorder Display(NR)
+6.Postorder Display(NR)
+7.Preorder Display(NR)
 0.Exit
 
 Enter your Choice: 0
 
-Exiting the Program
+Exiting the Program!!
 unix@unix-dx2480-MT:~/SEA18$ 
-
 */
